@@ -20,8 +20,8 @@
 
 ### 1. Клонирование репозитория
 ```bash
-  git clone https://github.com/your-repo/auth-graphql.git
-  cd auth-graphql
+  git clone https://github.com/DeveloperInal/GraphqlAuth.git
+  cd GraphqlAuth
 ```
 ### 2. Запуск проекта
 ```bash
