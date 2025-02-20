@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 volumes:
   admin-data:
   redis_data:
@@ -63,4 +64,71 @@ services:
     environment:
       NODE_ENV: production
     networks:
+=======
+volumes:
+  admin-data:
+  redis_data:
+
+networks:
+  main-network:
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - fastapi
+      - postgres
+      - nextjs
+    networks:
+      main-network:
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: inal_2411
+      POSTGRES_USER: postgres
+      POSTGRES_DB: graphqldb
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready --username=postgres --dbname=graphqldb" ]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+    volumes:
+      - admin-data:/var/lib/postgresql/data
+    networks:
+      main-network:
+
+  fastapi:
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+    container_name: fastapi
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    networks:
+      main-network:
+
+  nextjs:
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+    container_name: nextjs
+    depends_on:
+      - fastapi
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+    networks:
+>>>>>>> d8a3317a0a70d13af2213931a89ea36727542756
       main-network:
